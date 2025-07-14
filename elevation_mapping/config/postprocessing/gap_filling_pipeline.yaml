@@ -1,0 +1,49 @@
+gap_filling_pipeline:
+  ros__parameters:
+    # 空洞填补处理管道 - 专门减少高程图空缺
+    
+    # 第一步：内插填补小空洞
+    filter1:
+      name: inpaint_small_holes
+      type: gridMapCv/InpaintFilter
+      params:
+        input_layer: elevation
+        output_layer: elevation_inpainted
+        radius: 0.05  # 5cm半径内插
+
+    # 第二步：均值滤波平滑边界
+    filter2:
+      name: smooth_boundaries
+      type: gridMapFilters/MeanInRadiusFilter
+      params:
+        input_layer: elevation_inpainted
+        output_layer: elevation_smoothed
+        radius: 0.03  # 3cm平滑半径
+
+    # 第三步：再次内插更大的空洞
+    filter3:
+      name: inpaint_large_holes
+      type: gridMapCv/InpaintFilter
+      params:
+        input_layer: elevation_smoothed
+        output_layer: elevation
+        radius: 0.08  # 8cm半径处理较大空洞
+
+    # 第四步：计算表面法向量（可选，用于可视化）
+    filter4:
+      name: surface_normals
+      type: gridMapFilters/NormalVectorsFilter
+      params:
+        input_layer: elevation
+        output_layer: normal_vectors_z
+        normal_vector_positive_axis: z
+
+    # 第五步：计算坡度信息
+    filter5:
+      name: slope_calculation
+      type: gridMapFilters/MathExpressionFilter
+      params:
+        input_layer: normal_vectors_z
+        output_layer: slope
+        expression: acos(normal_vectors_z)  # 坡度角度
+        compute_layer_type: point_wise 

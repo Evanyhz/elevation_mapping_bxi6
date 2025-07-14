@@ -1,0 +1,112 @@
+# 📏 局部高程图分辨率配置指南
+# 全局地图：1cm (0.01m) 分辨率
+# 局部地图：可独立设置不同分辨率
+
+resolution_profiles:
+  # 🎯 高精度模式 - 接近全局地图质量
+  high_precision:
+    resolution: 0.02  # 2cm
+    grid_cells_2x1.5m: 100x75 = 7500个网格
+    use_case: "精密导航、障碍物检测"
+    pros: "细节丰富、精度高"
+    cons: "计算量大、可能有更多空洞"
+    
+  # ⚖️ 标准模式 - 平衡性能和质量  
+  standard:
+    resolution: 0.05  # 5cm 
+    grid_cells_2x1.5m: 40x30 = 1200个网格
+    use_case: "一般导航、路径规划"
+    pros: "性能和质量平衡、空洞较少"
+    cons: "细节有所损失"
+    
+
+
+# 🔄 重采样方法说明
+resampling_methods:
+  mean:
+    description: "均值重采样 - 一个局部网格内所有全局网格的平均值"
+    quality: "高质量、平滑"
+    speed: "中等速度"
+    use_case: "一般用途，推荐"
+    
+  nearest:
+    description: "最近邻重采样 - 取最近的全局网格值" 
+    quality: "保持原始值、可能有锯齿"
+    speed: "最快"
+    use_case: "需要原始数据的场景"
+    
+  linear:
+    description: "线性插值重采样 - 双线性插值"
+    quality: "平滑、细节保留好"
+    speed: "较慢"
+    use_case: "高质量要求"
+
+# 📊 性能对比表 (2m x 1.5m局部地图)
+performance_comparison:
+  resolution_2cm:
+    grid_count: 7500
+    memory_mb: ~30
+    cpu_usage: "高"
+    update_hz: "6-8"
+    hole_ratio: "15-25%"
+    
+  resolution_5cm:
+    grid_count: 1200  
+    memory_mb: ~5
+    cpu_usage: "中"
+    update_hz: "8-10"
+    hole_ratio: "5-15%"
+    
+  resolution_8cm:
+    grid_count: 475
+    memory_mb: ~2
+    cpu_usage: "低"
+    update_hz: "10-12"
+    hole_ratio: "2-8%"
+    
+  resolution_10cm:
+    grid_count: 300
+    memory_mb: ~1.2
+    cpu_usage: "很低"
+    update_hz: "12-15"
+    hole_ratio: "1-5%"
+
+# 💡 使用建议
+recommendations:
+  indoor_navigation:
+    recommended: "0.05m (5cm)"
+    reason: "室内环境适中精度，性能平衡"
+    
+  outdoor_rough_terrain:
+    recommended: "0.02m (2cm)"  
+    reason: "复杂地形需要高精度"
+    
+  high_speed_movement:
+    recommended: "0.08m (8cm)"
+    reason: "高速时需要快速更新"
+    
+  resource_limited:
+    recommended: "0.10m (10cm)"
+    reason: "计算资源有限时的选择"
+
+# 🔧 参数优化建议  
+parameter_tuning:
+  high_resolution_2cm:
+    update_rate: 6.0
+    tf_timeout: 3.0
+    enable_postprocessing: true
+    
+  standard_5cm:
+    update_rate: 8.0
+    tf_timeout: 2.0
+    enable_postprocessing: true
+    
+  fast_8cm:
+    update_rate: 10.0
+    tf_timeout: 1.5
+    enable_postprocessing: false
+    
+  ultra_fast_10cm:
+    update_rate: 12.0
+    tf_timeout: 1.0
+    enable_postprocessing: false 

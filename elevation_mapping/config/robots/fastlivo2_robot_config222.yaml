@@ -1,0 +1,89 @@
+fastlivo2_robot_parameters:
+  ros__parameters:
+    # 坐标系配置 - 适配Fast-LIVO2的TF变换
+    # 注意：根据您的Fast-LIVO2配置调整这些坐标系名称
+    map_frame_id: "camera_init"  # 改为与Fast-LIVO2一致
+    robot_base_frame_id: "aft_mapped_upright"  # 与Fast-LIVO2一致使用camera_init
+    track_point_frame_id: "aft_mapped_upright"
+    
+    # 机器人位姿配置 - 使用Fast-LIVO2的里程计输出
+    robot_pose_with_covariance_topic: aft_mapped_upright
+    robot_pose_cache_size: 300  # 增加缓存以提高稳定性
+    
+    # 输入源配置 - 使用Fast-LIVO2的注册点云
+    inputs: ["fastlivo2_cloud"]
+    
+    fastlivo2_cloud:
+      type: pointcloud
+      topic: /cloud_registered
+      queue_size: 8  # 适当增加队列以减少丢帧
+      publish_on_update: true  # 降低发布频率
+      sensor_processor:
+        type: laser
+    
+    # 跟踪点配置
+    track_point_x: 0.0
+    track_point_y: 0.0
+    track_point_z: 0.0
+    
+    # 更新频率配置 - 平衡性能和质量
+    min_update_rate: 50.0   # 适中的更新率
+    fused_map_publishing_rate: 50.0  # 与更新率保持一致
+    time_tolerance: 0.5  # 减少时间容忍度以提高同步精度
+    time_offset_for_point_cloud: 0.0
+    
+    # 地图参数配置 - 大场景建图，高精度1cm分辨率
+    length_in_x: 15.0
+    length_in_y: 15.0
+    position_x: 0.0
+    position_y: 0.0
+    resolution: 0.05  # ✅ 5cm高精度全局地图
+    
+    # 不确定性参数 - 优化稳定性，减少空缺
+    min_variance: 0.0001
+    max_variance: 0.1  # 进一步增加最大方差
+    mahalanobis_distance_threshold: 2.5  # 降低阈值使地图对变化更敏感
+    multi_height_noise: 0.003  # 减少多高度噪声
+    
+    # 传感器处理器参数 - 适配高质量点云
+    sensor_processor.ignore_points_above: 36.0
+    sensor_processor.ignore_points_below: -22.5
+    sensor_processor.apply_voxelgrid_filter: false  # 启用体素滤波增加点云密度
+    sensor_processor.voxelgrid_filter_size: 0.03   # 3cm体素大小
+    
+    # 可视性清理 - 关键：用于移除动态障碍物（如行人）的残影
+    enable_visibility_cleanup: true  # 开启可视性清理
+    enable_continuous_cleanup: false  # 开启连续清理
+    visibility_cleanup_rate: 1.0      # 提高清理频率以加快残影移除
+    scanning_duration: 60.0            # 增加扫描持续时间
+    
+    # 运动更新配置 - 关键：减少里程计抖动
+    robot_motion_map_update:
+      covariance_scale: 0.1  # 适度的协方差缩放
+      translation_variance_threshold: 0.005  # 更敏感的平移阈值
+      rotation_variance_threshold: 0.005     # 更敏感的旋转阈值
+    
+    # 后处理管道 - 填补空洞
+    postprocessor_pipeline_name: "gap_filling_pipeline"
+    postprocessor_num_threads: 4  # 增加线程数加快处理
+    output_topic: "elevation_map_filled"
+    
+    # 空洞填补管道配置
+    # gap_filling_pipeline:
+    #   # 1. 空洞填补
+    #   filter1:
+    #     name: inpaint
+    #     type: gridMapCv/InpaintFilter
+    #     params:
+    #       input_layer: elevation
+    #       output_layer: elevation_filled
+    #       radius: 0.1  # 10cm填补半径
+      
+      # 2. 轻微平滑
+      # filter2:
+      #   name: smooth
+      #   type: gridMapFilters/MeanInRadiusFilter
+      #   params:
+      #     input_layer: elevation_filled
+      #     output_layer: elevation_smooth
+      #     radius: 0.10  # 5cm平滑半径 
