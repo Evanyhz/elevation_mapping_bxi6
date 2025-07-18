@@ -37,7 +37,7 @@ fastlivo2_robot_parameters:
     length_in_y: 15.0
     position_x: 0.0
     position_y: 0.0
-    resolution: 0.05  # ✅ 5cm高精度全局地图
+    resolution: 0.01  # ✅ 5cm高精度全局地图
     
     # 不确定性参数 - 优化稳定性，减少空缺
     min_variance: 0.0001

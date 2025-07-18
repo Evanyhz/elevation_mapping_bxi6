@@ -163,7 +163,7 @@ private:
             grid_map::GridMap local_map;
             
             if (use_rotated_robot_frame_) {   // 启用坐标跟随
-                double extend_factor = 8.0;  // 更大的扩展因子确保45度旋转时不丢失数据
+                double extend_factor = 3.0;  // 更大的扩展因子确保45度旋转时不丢失数据
                 grid_map::Length extended_length(local_map_size_x_ * extend_factor, local_map_size_y_ * extend_factor);
                 bool is_success = false;
                 grid_map::GridMap extended_map = global_map_.getSubmap(center_position, extended_length, is_success);

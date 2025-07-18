@@ -19,7 +19,6 @@ from sensor_msgs.msg import JointState
 from bxi_example_py_trunk.inference.humanoid_hurdle import humanoid_hurdle_onnx_Agent
 
 import onnxruntime as ort
-
 from std_msgs.msg import Float32MultiArray
 
 robot_name = "elf25"
@@ -84,7 +83,6 @@ joint_kd = np.array([  # 指定关节的kd，和joint_name顺序一一对应
     2,2,2,2,2,
     2,2,2,2,2,
 ], dtype=np.float32)
-
 
 isaac_joint_names = [ # isaacgym顺序
     # 0:5

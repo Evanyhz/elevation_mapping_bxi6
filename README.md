@@ -25,8 +25,7 @@
 
         cd src
         git clone https://github.com/anybotics/grid_map.git --branch humble
-
-   全部编译：
+全部编译：
         cd ../
         colcon build --symlink-install
 
@@ -38,6 +37,16 @@
         source install/setup.bash && ros2 launch elevation_mapping local_elevation_map_extractor_z_up_launch.py
         #局部高程图转高度矩阵：
         source /opt/ros/humble/setup.bash && source install/setup.bash && python3 simple_robot_height_map_publisher.py
+
+
+         ros2 bag record /robot_height_map 
+
+
+
+
+
+
+
 
 
 ```
