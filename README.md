@@ -9,6 +9,7 @@
 二、编译&安装 kindr_ros
 
          cd xx_ws #回到 _ws 工作目录
+         source /opt/ros/humble/setup.bash
          colcon build --packages-up-to kindr_ros
 
 三、编译 grid_map
