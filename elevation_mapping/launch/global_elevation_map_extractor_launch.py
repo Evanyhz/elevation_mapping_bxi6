@@ -67,13 +67,13 @@ def generate_launch_description():
             output='screen'
         ),
         
-        # 步骤2: 先绕X轴旋转180度翻转Z轴
+        # 步骤2: 先绕X轴旋转180度翻转Z轴     #-0.011, -0.02329, 0.04412
         launch_ros.actions.Node(
             package='tf2_ros',
             executable='static_transform_publisher',
             name='aft_mapped_to_z_up_tf',
             arguments=[
-                '0', '0', '0',           # 位移: x, y, z
+                '-0.011', '-0.02329', '0.04412',           # 位移: x, y, z
                 '0', '0', '3.14159',     # 旋转: yaw, pitch, roll (roll=180度绕X轴)
                 'aft_mapped', 'aft_mapped_z_up'
             ],
