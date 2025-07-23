@@ -1,7 +1,7 @@
 ```bash
        git clone https://github.com/Evanyhz/elevation_mapping_bxi4
 
-一、 编译kindr，它是一个native C++ build：                     
+一、 编译kindr，native C++ build：                     
         cd src/kindr && mkdir build && cd build  #若显示已有build目录，则把原来的删除即可
         cmake .. -DUSE_CMAKE=true
         sudo make install
