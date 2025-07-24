@@ -27,7 +27,7 @@ def generate_launch_description():
         'fastlivo2_cloud.queue_size': 1,
         'fastlivo2_cloud.publish_on_update': False,
         'fastlivo2_cloud.sensor_processor.type': 'laser',
-        'track_point_x': 0.75,
+        'track_point_x': 0.75,    #机器人距矩形中心 X 方向的偏移
         'track_point_y': 0.0,
         'track_point_z': 0.0,
         'min_update_rate': 50.0,
