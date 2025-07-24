@@ -29,8 +29,9 @@ https://github.com/Evanyhz/elevation_mapping_bxi6
 全部编译：
         cd ../
         colcon build --symlink-install
+#至此，编译完成
 
-四、启用高程图：
+四、启用高程图：（单独节点启动方式）
         colcon build --packages-select elevation_mapping
         # 全局高程图：
         source install/setup.bash && ros2 launch elevation_mapping global_elevation_map_extractor_launch.py 
@@ -41,7 +42,7 @@ https://github.com/Evanyhz/elevation_mapping_bxi6
 
          #ros2 bag record /robot_height_map
 
-五、高程图修改：
+五、高程图参数修改：
    1.全局高程图的相关文件在/elevation_mapping/launch/global_elevation_mapping_extractor_launch.py
    2.局部高程图：/elevation_mapping/launch/local_elevation_mapping_extractor_z_up_launch.py
                && /elevation_mapping/src/local_elevation_mapping_extractor.cpp
