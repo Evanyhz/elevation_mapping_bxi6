@@ -20,18 +20,18 @@ def generate_launch_description():
         'robot_frame': 'aft_mapped_upright',  # 使用朝上的坐标系
         'map_frame': 'camera_init',           # 更改为camera_init以匹配全局地图
 
-        'local_map_size_x': 1.20,  
-        'local_map_size_y': 0.40,  
+        'local_map_size_x': 1.20,  # 局部高程图的长
+        'local_map_size_y': 0.40,  # 全局高程图的长
         'update_rate': 500.0,      
         'tf_timeout': 0.01,       
         # 旋转
-        'use_rotated_robot_frame': True,   # 启用旋转
-        'invert_height': False,            # 反转高度
+        'use_rotated_robot_frame': True,  
+        'invert_height': False,            
     
         # 添加以下三个参数来设置局部高程图的分辨率
-        'enable_resampling': True,         # 启用重采样
-        'local_map_resolution': 0.05,      # 设置为5cm分辨率
-        'resampling_method': 'mean'        # 使用均值方法进行重采样
+        'enable_resampling': True,         
+        'local_map_resolution': 0.05,      # 5cm分辨率
+        'resampling_method': 'mean'      
     }
     # 可视化参数
     visualization_params = {
