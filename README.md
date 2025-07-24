@@ -26,9 +26,19 @@ https://github.com/Evanyhz/elevation_mapping_bxi6
 
         cd src
         git clone https://github.com/anybotics/grid_map.git --branch humble
-全部编译：
+
+四、全部编译：
+kindr_ros的galactic分支与ROS2 Humble的头文件路径结构不兼容std_msgs、builtin_interfaces、geometry_msgs等ROS接口的路径在galactic和humble之间发生了变化
+解决方案：使用符号链接方法解决路径兼容性问题：
+# 创建的符号链接：
+sudo ln -sf /opt/ros/humble/include/std_msgs/std_msgs /usr/local/include/std_msgs
+sudo ln -sf /opt/ros/humble/include/builtin_interfaces/builtin_interfaces /usr/local/include/builtin_interfaces  
+sudo ln -sf /opt/ros/humble/include/geometry_msgs/geometry_msgs /usr/local/include/geometry_msgs
+sudo ln -sf /home/<你的用户名>/elevation_mapping_bxi/install/kindr/include/kindr/kindr /usr/local/include/kindr
+
         cd ../
         colcon build --symlink-install
+
 #至此，编译完成
 
 四、启用高程图：（单独节点启动方式）
@@ -52,14 +62,5 @@ https://github.com/Evanyhz/elevation_mapping_bxi6
 
  
 <！--
-kindr_ros的galactic分支与ROS2 Humble的头文件路径结构不兼容
-std_msgs、builtin_interfaces、geometry_msgs等ROS接口的路径在galactic和humble之间发生了变化
-解决方案：
-使用符号链接方法成功解决了路径兼容性问题：
-# 创建的符号链接：
-sudo ln -sf /opt/ros/humble/include/std_msgs/std_msgs /usr/local/include/std_msgs
-sudo ln -sf /opt/ros/humble/include/builtin_interfaces/builtin_interfaces /usr/local/include/builtin_interfaces  
-sudo ln -sf /opt/ros/humble/include/geometry_msgs/geometry_msgs /usr/local/include/geometry_msgs
-sudo ln -sf /home/<你的用户名>/elevation_mapping_bxi/install/kindr/include/kindr/kindr /usr/local/include/kindr
 -->
 ```
